@@ -1,0 +1,26 @@
+const express = require("express");
+const app = express();
+require("dotenv/config");
+const mongoose = require("mongoose");
+const port = process.env.PORT || 8000;
+
+app.use(express.json());
+const userRoute = require("./routes/userRoute");
+app.use("/user", userRoute);
+
+mongoose.connect(
+    "mongodb+srv://ary:" +
+        process.env.DATABASE_KEY +
+        "@bcc-workshop.u94wq.mongodb.net/bcc-internship?retryWrites=true&w=majority",
+    { useNewUrlParser: true, useUnifiedTopology: true },
+    (err) => {
+        if (err) {
+            console.log(err);
+        } else {
+            app.listen(port, () => {
+                console.log("listening to port " + port);
+            });
+            console.log("connected to database");
+        }
+    }
+);
