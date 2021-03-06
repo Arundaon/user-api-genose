@@ -25,7 +25,7 @@ async function registerUser(req, res) {
         jenisKelamin: null,
         tempatLahir: null,
         tiketUser: null,
-        lokasiTes: null,
+        tempatTes: null,
         jadwalTes: null,
         // Hasil Tes
         hasilTes: null,

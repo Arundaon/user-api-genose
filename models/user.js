@@ -30,7 +30,7 @@ const userSchema = mongoose.Schema({
     tiketUser: {
         type: String,
     },
-    lokasiTes: {
+    tempatTes: {
         type: String,
     },
     jadwalTes: {
