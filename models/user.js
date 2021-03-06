@@ -26,5 +26,20 @@ const userSchema = mongoose.Schema({
     tempatLahir: {
         type: String,
     },
+    // Set Jadwal Tes
+    tiketUser: {
+        type: String,
+    },
+    lokasiTes: {
+        type: String,
+    },
+    jadwalTes: {
+        type: Date,
+    },
+    // Hasil Tes
+
+    hasilTes: {
+        type: Boolean,
+    },
 });
 module.exports = mongoose.model("user", userSchema);

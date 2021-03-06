@@ -24,6 +24,11 @@ async function registerUser(req, res) {
         password: bcrypt.hashSync(req.body.password, salt),
         jenisKelamin: null,
         tempatLahir: null,
+        tiketUser: null,
+        lokasiTes: null,
+        jadwalTes: null,
+        // Hasil Tes
+        hasilTes: null,
     });
 
     try {
@@ -73,6 +78,10 @@ async function editUser(req, res) {
                     password: bcrypt.hashSync(req.body.password, salt),
                     jenisKelamin: req.body.jenisKelamin,
                     tempatLahir: req.body.tempatLahir,
+                    tiketUser: req.body.tiketUser,
+                    tempatTes: req.body.tempatTes,
+                    jadwalTes: req.body.jadwalTes,
+                    hasilTes: req.body.hasilTes,
                 },
             }
         );

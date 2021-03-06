@@ -8,6 +8,11 @@ function userRegisterValidator(body) {
         //optional
         jenisKelamin: joi.boolean(),
         tempatLahir: joi.string(),
+        //tes info
+        tiketUser: joi.string(),
+        tempatTes: joi.string(),
+        jadwalTes: joi.date(),
+        hasilTes: joi.boolean(),
     });
     return userSchema.validate(body);
 }
