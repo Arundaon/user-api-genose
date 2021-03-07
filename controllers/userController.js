@@ -43,7 +43,7 @@ async function findAllUser(req, res) {
     try {
         const allUser = await User.find(
             {},
-            "_id nama tanggalLahir email jenisKelamin tempatLahir tiketUser hasilTes jadwalTes"
+            "_id nama tanggalLahir email jenisKelamin tempatLahir tiketUser tempatTes hasilTes jadwalTes"
         );
         res.json(allUser);
     } catch (err) {
@@ -55,7 +55,7 @@ async function findOneUser(req, res) {
     try {
         const oneUser = await User.findById(
             req.params.id,
-            "_id nama tanggalLahir email jenisKelamin tempatLahir tiketUser hasilTes jadwalTes"
+            "_id nama tanggalLahir email jenisKelamin tempatLahir tiketUser tempatTes hasilTes jadwalTes"
         );
         res.json(oneUser);
     } catch (err) {
