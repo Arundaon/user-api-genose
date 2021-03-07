@@ -41,7 +41,10 @@ async function registerUser(req, res) {
 
 async function findAllUser(req, res) {
     try {
-        const allUser = await User.find();
+        const allUser = await User.find(
+            {},
+            "_id nama tanggalLahir email jenisKelamin tempatLahir tiketUser hasilTes jadwalTes"
+        );
         res.json(allUser);
     } catch (err) {
         res.json({ message: err });
@@ -50,7 +53,10 @@ async function findAllUser(req, res) {
 
 async function findOneUser(req, res) {
     try {
-        const oneUser = await User.findById(req.params.id);
+        const oneUser = await User.findById(
+            req.params.id,
+            "_id nama tanggalLahir email jenisKelamin tempatLahir tiketUser hasilTes jadwalTes"
+        );
         res.json(oneUser);
     } catch (err) {
         res.json({ message: err });
