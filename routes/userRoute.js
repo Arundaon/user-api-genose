@@ -3,18 +3,18 @@ const router = express.Router();
 const mongoose = require("mongoose");
 const userController = require("../controllers/userController");
 const jwtauth = require("../middlewares/jwtauth");
+const jwtauthAdmin = require("../middlewares/jwtauth-admin");
 
 router.post("/register", userController.registerUser);
 // get all user
-router.get("/users", userController.findAllUser);
+router.get("/users", jwtauthAdmin, userController.findAllUser);
 router.post("/login", userController.loginUser);
 // get one user
-router.get("/:id", userController.findOneUser);
-
+router.get("/get-user", jwtauth, userController.findOneUser);
 // delete user
-router.delete("/:id", userController.deleteUser);
+router.delete("/delete-user/:id", jwtauthAdmin, userController.deleteUser);
 
 // edit user
-router.put("/:id", userController.editUser);
+router.put("/edit-user", jwtauth, userController.editUser);
 
 module.exports = router;

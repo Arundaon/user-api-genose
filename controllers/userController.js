@@ -6,6 +6,7 @@ const {
     userRegisterValidator,
     userLoginValidator,
 } = require("../validators/userValidator");
+const { find } = require("../models/user");
 
 async function registerUser(req, res) {
     const { value, error } = userRegisterValidator(req.body);
@@ -54,7 +55,7 @@ async function findAllUser(req, res) {
 async function findOneUser(req, res) {
     try {
         const oneUser = await User.findById(
-            req.params.id,
+            req.user._id,
             "_id nama tanggalLahir email jenisKelamin tempatLahir tiketUser tempatTes hasilTes jadwalTes"
         );
         res.json(oneUser);
@@ -73,9 +74,13 @@ async function deleteUser(req, res) {
 }
 
 async function editUser(req, res) {
+    const hasEmail = await User.findOne({ email: req.body.email });
+    if (hasEmail)
+        return res.status(400).json({ message: "Email already exist" });
+
     try {
         const editedUser = await User.updateOne(
-            { _id: req.params.id },
+            { _id: req.user._id },
             {
                 $set: {
                     nama: req.body.nama,

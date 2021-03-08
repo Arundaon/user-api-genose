@@ -20,6 +20,9 @@ app.use(function (req, res, next) {
 app.use(express.json());
 const userRoute = require("./routes/userRoute");
 app.use("/user", userRoute);
+app.use("/", (req, res) => {
+    res.status(400).json({ status: 400, message: "invalid request" });
+});
 
 mongoose.connect(
     "mongodb+srv://ary:" +
