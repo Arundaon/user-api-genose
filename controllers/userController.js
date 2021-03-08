@@ -62,7 +62,7 @@ async function findOneUser(req, res) {
         res.json({
             status: "SUCCESS",
             message: "user found",
-            data: { ...oneUser },
+            data: { ...oneUser._doc },
         });
     } catch (err) {
         res.json({
