@@ -3,7 +3,6 @@ const router = express.Router();
 const mongoose = require("mongoose");
 const userController = require("../controllers/userController");
 const jwtauth = require("../middlewares/jwtauth");
-const jwtauthAdmin = require("../middlewares/jwtauth-admin");
 
 router.post("/register", userController.registerUser);
 // get all user
