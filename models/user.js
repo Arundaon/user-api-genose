@@ -21,7 +21,7 @@ const userSchema = mongoose.Schema({
     //  Jenis Kelamin
     //  Tempat Lahir
     jenis_kelamin: {
-        type: Boolean,
+        type: String,
     },
     tempat_lahir: {
         type: String,
@@ -39,7 +39,7 @@ const userSchema = mongoose.Schema({
     // Hasil Tes
 
     hasil_tes: {
-        type: Boolean,
+        type: String,
     },
 });
 module.exports = mongoose.model("user", userSchema);

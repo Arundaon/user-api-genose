@@ -6,13 +6,13 @@ function userRegisterValidator(body) {
         email: joi.string().email().required(),
         tanggal_lahir: joi.date().required(),
         //optional
-        jenis_kelamin: joi.boolean(),
+        jenis_kelamin: joi.string(),
         tempat_lahir: joi.string(),
         //tes info
         tiket_user: joi.string(),
         tempat_tes: joi.string(),
         jadwal_tes: joi.date(),
-        hasil_tes: joi.boolean(),
+        hasil_tes: joi.string(),
     });
     return userSchema.validate(body);
 }
