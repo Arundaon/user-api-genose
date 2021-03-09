@@ -4,15 +4,15 @@ function userRegisterValidator(body) {
         nama: joi.string().min(3).required(),
         password: joi.string().min(8).required(),
         email: joi.string().email().required(),
-        tanggalLahir: joi.date().required(),
+        tanggal_lahir: joi.date().required(),
         //optional
-        jenisKelamin: joi.boolean(),
-        tempatLahir: joi.string(),
+        jenis_kelamin: joi.boolean(),
+        tempat_lahir: joi.string(),
         //tes info
-        tiketUser: joi.string(),
-        tempatTes: joi.string(),
-        jadwalTes: joi.date(),
-        hasilTes: joi.boolean(),
+        tiket_user: joi.string(),
+        tempat_tes: joi.string(),
+        jadwal_tes: joi.date(),
+        hasil_tes: joi.boolean(),
     });
     return userSchema.validate(body);
 }

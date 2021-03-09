@@ -5,7 +5,7 @@ const userSchema = mongoose.Schema({
         required: true,
         min: 3,
     },
-    tanggalLahir: {
+    tanggal_lahir: {
         type: Date,
         required: true,
     },
@@ -20,25 +20,25 @@ const userSchema = mongoose.Schema({
     //optional
     //  Jenis Kelamin
     //  Tempat Lahir
-    jenisKelamin: {
+    jenis_kelamin: {
         type: Boolean,
     },
-    tempatLahir: {
+    tempat_lahir: {
         type: String,
     },
     // Set Jadwal Tes
-    tiketUser: {
+    tiket_user: {
         type: String,
     },
-    tempatTes: {
+    tempat_tes: {
         type: String,
     },
-    jadwalTes: {
+    jadwal_tes: {
         type: Date,
     },
     // Hasil Tes
 
-    hasilTes: {
+    hasil_tes: {
         type: Boolean,
     },
 });

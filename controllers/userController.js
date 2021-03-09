@@ -25,16 +25,15 @@ async function registerUser(req, res) {
 
     const user = new User({
         nama: req.body.nama,
-        tanggalLahir: req.body.tanggalLahir,
+        tanggal_lahir: req.body.tanggal_lahir,
         email: req.body.email,
         password: bcrypt.hashSync(req.body.password, salt),
-        jenisKelamin: null,
-        tempatLahir: null,
-        tiketUser: null,
-        tempatTes: null,
-        jadwalTes: null,
-        // Hasil Tes
-        hasilTes: null,
+        jenis_kelamin: null,
+        tempat_lahir: null,
+        tiket_user: null,
+        tempat_tes: null,
+        jadwal_tes: null,
+        hasil_tes: null,
     });
 
     try {
@@ -57,7 +56,7 @@ async function findOneUser(req, res) {
     try {
         const oneUser = await User.findById(
             req.user._id,
-            "_id nama tanggalLahir email jenisKelamin tempatLahir tiketUser tempatTes hasilTes jadwalTes"
+            "_id nama tanggal_lahir email jenis_kelamin tempat_lahir tiket_user tempat_tes hasil_tes jadwal_tes"
         );
         res.json({
             status: "SUCCESS",
@@ -88,15 +87,15 @@ async function editUser(req, res) {
             {
                 $set: {
                     nama: req.body.nama,
-                    tanggalLahir: req.body.tanggalLahir,
+                    tanggal_lahir: req.body.tanggal_lahir,
                     email: req.body.email,
                     password: bcrypt.hashSync(req.body.password, salt),
-                    jenisKelamin: req.body.jenisKelamin,
-                    tempatLahir: req.body.tempatLahir,
-                    tiketUser: req.body.tiketUser,
-                    tempatTes: req.body.tempatTes,
-                    jadwalTes: req.body.jadwalTes,
-                    hasilTes: req.body.hasilTes,
+                    jenis_kelamin: req.body.jenis_kelamin,
+                    tempat_lahir: req.body.tempat_lahir,
+                    tiket_user: req.body.tiket_user,
+                    tempat_tes: req.body.tempat_tes,
+                    jadwal_tes: req.body.jadwal_tes,
+                    hasil_tes: req.body.hasil_tes,
                 },
             }
         );
