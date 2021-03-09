@@ -66,7 +66,7 @@ async function findOneUser(req, res) {
         });
     } catch (err) {
         res.json({
-            status: "SUCCESS",
+            status: "FAILED",
             message: "user not found",
             data: { ...err },
         });
@@ -74,12 +74,12 @@ async function findOneUser(req, res) {
 }
 
 async function editUser(req, res) {
-    const hasEmail = await User.exists({ email: req.body.email });
-    if (hasEmail)
+    const hasEmail = await User.findOne({ email: req.body.email });
+    if (hasEmail && hasEmail._id != req.user._id)
         return res.status(400).json({
             status: "FAILED",
-            message: "Email already exist",
-            data: { hasEmail },
+            message: "email already exist",
+            data: { hasEmail: true },
         });
 
     try {
