@@ -38,10 +38,11 @@ async function registerUser(req, res) {
 
     try {
         const savedUser = await user.save();
+        delete savedUser._doc.password;
         res.json({
             status: "SUCCESS",
             message: "user registered successfully",
-            data: { ...savedUser },
+            data: { ...savedUser._doc },
         });
     } catch (err) {
         res.status(400).json({
