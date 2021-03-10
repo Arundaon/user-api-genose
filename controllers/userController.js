@@ -74,23 +74,31 @@ async function findOneUser(req, res) {
 }
 
 async function editUser(req, res) {
-    const hasEmail = await User.findOne({ email: req.body.email });
-    if (hasEmail && hasEmail._id != req.user._id)
+    const editedUser = await User.findOne({ email: req.body.email });
+    if (editedUser && editedUser._id != req.user._id)
         return res.status(400).json({
             status: "FAILED",
             message: "email already exist",
             data: { hasEmail: true },
         });
+    const count = await User.count({ jadwal_tes: req.body.jadwal_tes });
+    if (count > 50) {
+        return res.json({
+            status: "FAILED",
+            message: "user sudah mencapai 50 pada jam tersebut",
+            data: { jumlah_user: count },
+        });
+    }
 
     try {
-        const editedUser = await User.updateOne(
+        const updatedUser = await User.updateOne(
             { _id: req.user._id },
             {
                 $set: {
                     nama: req.body.nama,
                     tanggal_lahir: req.body.tanggal_lahir,
                     email: req.body.email,
-                    password: bcrypt.hashSync(req.body.password, salt),
+                    password: editedUser.password,
                     jenis_kelamin: req.body.jenis_kelamin,
                     tempat_lahir: req.body.tempat_lahir,
                     tiket_user: req.body.tiket_user,
@@ -103,7 +111,7 @@ async function editUser(req, res) {
         res.json({
             status: "SUCCESS",
             message: "Sucessfully edited the User",
-            data: { ...editedUser },
+            data: { ...updatedUser },
         });
     } catch (err) {
         res.status(400).json({
