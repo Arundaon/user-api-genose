@@ -1,5 +1,5 @@
 const joi = require("joi");
-function userRegisterValidator(body) {
+function userValidator(body) {
     const userSchema = joi.object({
         nama: joi.string().min(3).required(),
         password: joi.string().min(8).required(),
@@ -23,7 +23,32 @@ const userLoginValidator = (body) => {
     });
     return userSchema.validate(body);
 };
+
+const aturJadwalValidator = (body) => {
+    const userSchema = joi.object({
+        //tes info
+        tiket_user: joi.string().required(),
+        tempat_tes: joi.string().required(),
+        jadwal_tes: joi.date().required(),
+        hasil_tes: joi.string().required(),
+    });
+    return userSchema.validate(body);
+};
+
+const editUserValidator = (body) => {
+    const userSchema = joi.object({
+        nama: joi.string().min(3).required(),
+        email: joi.string().email().required(),
+        tanggal_lahir: joi.date().required(),
+        //optional
+        jenis_kelamin: joi.string(),
+        tempat_lahir: joi.string(),
+    });
+    return userSchema.validate(body);
+};
 module.exports = {
-    userRegisterValidator,
+    userValidator,
     userLoginValidator,
+    editUserValidator,
+    aturJadwalValidator,
 };

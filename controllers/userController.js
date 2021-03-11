@@ -3,12 +3,15 @@ const jwt = require("jsonwebtoken");
 const bcrypt = require("bcryptjs");
 const salt = bcrypt.genSaltSync(10);
 const {
-    userRegisterValidator,
+    userValidator,
     userLoginValidator,
+    aturJadwalValidator,
+    editUserValidator,
 } = require("../validators/userValidator");
 const { find } = require("../models/user");
+const Joi = require("joi");
 async function registerUser(req, res) {
-    const { value, error } = userRegisterValidator(req.body);
+    const { value, error } = userValidator(req.body);
     if (error)
         return res.status(400).json({
             status: "FAILED",
@@ -73,7 +76,82 @@ async function findOneUser(req, res) {
     }
 }
 
+async function numberOfUserByJadwal(req, res) {
+    const schema = Joi.object({
+        jadwal_tes: Joi.date().required(),
+    });
+    const { value, error } = schema.validate(req.body);
+    if (error)
+        return res.json({
+            status: "FAILED",
+            message: error["details"][0].message,
+            data: { ...error },
+        });
+    try {
+        const count = await User.count({ jadwal_tes: req.body.jadwal_tes });
+        res.json({
+            status: "SUCCESS",
+            message: "number of user collected",
+            data: { number_of_user: count },
+        });
+    } catch (err) {
+        res.status(400).json({
+            status: "FAILED",
+            message: "error getting number of user",
+            data: { ...err },
+        });
+    }
+}
+
+async function aturJadwal(req, res) {
+    const { value, error } = aturJadwalValidator(req.body);
+    if (error)
+        return res.status(400).json({
+            status: "FAILED",
+            message: error["details"][0].message,
+            data: { ...error },
+        });
+    const user = await User.findOne({ _id: req.user._id });
+    try {
+        const updatedUser = await User.updateOne(
+            { _id: req.user._id },
+            {
+                $set: {
+                    nama: user.nama,
+                    tanggal_lahir: user.tanggal_lahir,
+                    email: user.email,
+                    password: user.password,
+                    jenis_kelamin: user.jenis_kelamin,
+                    tempat_lahir: user.tempat_lahir,
+                    tiket_user: req.body.tiket_user,
+                    tempat_tes: req.body.tempat_tes,
+                    jadwal_tes: req.body.jadwal_tes,
+                    hasil_tes: req.body.hasil_tes,
+                },
+            }
+        );
+        res.json({
+            status: "SUCCESS",
+            message: "Sucessfully mengatur jadwal",
+            data: { ...updatedUser },
+        });
+    } catch (err) {
+        res.status(400).json({
+            status: "FAILED",
+            message: "error mengatur jadwal",
+            data: { ...err },
+        });
+    }
+}
+
 async function editUser(req, res) {
+    const { value, error } = editUserValidator(req.body);
+    if (error)
+        return res.status(400).json({
+            status: "FAILED",
+            message: error["details"][0].message,
+            data: { ...error },
+        });
     const editedUser = await User.findOne({ email: req.body.email });
     if (editedUser && editedUser._id != req.user._id)
         return res.status(400).json({
@@ -81,14 +159,6 @@ async function editUser(req, res) {
             message: "email already exist",
             data: { hasEmail: true },
         });
-    const count = await User.count({ jadwal_tes: req.body.jadwal_tes });
-    if (count > 50) {
-        return res.json({
-            status: "FAILED",
-            message: "user sudah mencapai 50 pada jam tersebut",
-            data: { jumlah_user: count },
-        });
-    }
 
     try {
         const updatedUser = await User.updateOne(
@@ -101,22 +171,22 @@ async function editUser(req, res) {
                     password: editedUser.password,
                     jenis_kelamin: req.body.jenis_kelamin,
                     tempat_lahir: req.body.tempat_lahir,
-                    tiket_user: req.body.tiket_user,
-                    tempat_tes: req.body.tempat_tes,
-                    jadwal_tes: req.body.jadwal_tes,
-                    hasil_tes: req.body.hasil_tes,
+                    tiket_user: editedUser.tiket_user,
+                    tempat_tes: editedUser.tempat_tes,
+                    jadwal_tes: editedUser.jadwal_tes,
+                    hasil_tes: editedUser.hasil_tes,
                 },
             }
         );
         res.json({
             status: "SUCCESS",
-            message: "Sucessfully edited the User",
+            message: "user edited sucessfully",
             data: { ...updatedUser },
         });
     } catch (err) {
         res.status(400).json({
             status: "FAILED",
-            message: "error editing User",
+            message: "error editing user",
             data: { ...err },
         });
     }
@@ -168,4 +238,6 @@ module.exports = {
     findOneUser,
     editUser,
     loginUser,
+    numberOfUserByJadwal,
+    aturJadwal,
 };
