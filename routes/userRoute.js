@@ -10,4 +10,5 @@ router.get("/get-user", jwtauth, userController.findOneUser);
 router.put("/edit-user", jwtauth, userController.editUser);
 router.post("/count-user-by-jadwal", userController.numberOfUserByJadwal);
 router.post("/atur-jadwal", jwtauth, userController.aturJadwal);
+router.post("/set-hasil-tes", userController.setHasilTes);
 module.exports = router;

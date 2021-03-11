@@ -29,8 +29,7 @@ const aturJadwalValidator = (body) => {
         //tes info
         tiket_user: joi.string().required(),
         tempat_tes: joi.string().required(),
-        jadwal_tes: joi.date().required(),
-        hasil_tes: joi.string().required(),
+        jadwal_tes: joi.date().required()
     });
     return userSchema.validate(body);
 };

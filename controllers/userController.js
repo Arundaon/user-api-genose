@@ -126,7 +126,7 @@ async function aturJadwal(req, res) {
                     tiket_user: req.body.tiket_user,
                     tempat_tes: req.body.tempat_tes,
                     jadwal_tes: req.body.jadwal_tes,
-                    hasil_tes: req.body.hasil_tes,
+                    hasil_tes: null,
                 },
             }
         );
@@ -143,7 +143,50 @@ async function aturJadwal(req, res) {
         });
     }
 }
-
+async function setHasilTes(req, res) {
+    const schema = Joi.object({
+        tiket_user: Joi.string().required(),
+        hasil_tes: Joi.string().required(),
+    });
+    const { value, error } = schema.validate(req.body);
+    const user = await User.findOne({ tiket_user: req.body.tiket_user });
+    if (error)
+        return res.status(400).json({
+            status: "FAILED",
+            message: error["details"][0].message,
+            data: { ...error },
+        });
+    try {
+        const updatedUser = await User.updateOne(
+            { _id: user._id },
+            {
+                $set: {
+                    nama: user.nama,
+                    tanggal_lahir: user.tanggal_lahir,
+                    email: user.email,
+                    password: user.password,
+                    jenis_kelamin: user.jenis_kelamin,
+                    tempat_lahir: user.tempat_lahir,
+                    tiket_user: user.tiket_user,
+                    tempat_tes: user.tempat_tes,
+                    jadwal_tes: user.jadwal_tes,
+                    hasil_tes: req.body.hasil_tes,
+                },
+            }
+        );
+        res.json({
+            status: "SUCCESS",
+            message: "hasil tes changed successfully",
+            data: { ...updatedUser },
+        });
+    } catch (err) {
+        res.status(400).json({
+            status: "FAILED",
+            message: "error changing hasil tes",
+            data: { ...err },
+        });
+    }
+}
 async function editUser(req, res) {
     const { value, error } = editUserValidator(req.body);
     if (error)
@@ -240,4 +283,5 @@ module.exports = {
     loginUser,
     numberOfUserByJadwal,
     aturJadwal,
+    setHasilTes,
 };
