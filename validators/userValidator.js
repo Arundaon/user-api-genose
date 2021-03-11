@@ -29,7 +29,7 @@ const aturJadwalValidator = (body) => {
         //tes info
         tiket_user: joi.string().required(),
         tempat_tes: joi.string().required(),
-        jadwal_tes: joi.date().required()
+        jadwal_tes: joi.date().required(),
     });
     return userSchema.validate(body);
 };
@@ -39,6 +39,7 @@ const editUserValidator = (body) => {
         nama: joi.string().min(3).required(),
         email: joi.string().email().required(),
         tanggal_lahir: joi.date().required(),
+        password: joi.string().min(8),
         //optional
         jenis_kelamin: joi.string(),
         tempat_lahir: joi.string(),

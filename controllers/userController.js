@@ -202,7 +202,12 @@ async function editUser(req, res) {
             message: "email already exist",
             data: { hasEmail: true },
         });
-
+    let thePassword = "";
+    try {
+        thePassword = bcrypt.hashSync(req.body.password, salt);
+    } catch (err) {
+        thePassword = editedUser.password;
+    }
     try {
         const updatedUser = await User.updateOne(
             { _id: req.user._id },
@@ -211,7 +216,7 @@ async function editUser(req, res) {
                     nama: req.body.nama,
                     tanggal_lahir: req.body.tanggal_lahir,
                     email: req.body.email,
-                    password: editedUser.password,
+                    password: thePassword,
                     jenis_kelamin: req.body.jenis_kelamin,
                     tempat_lahir: req.body.tempat_lahir,
                     tiket_user: editedUser.tiket_user,
