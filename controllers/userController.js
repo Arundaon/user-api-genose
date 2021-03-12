@@ -243,8 +243,10 @@ async function editUser(req, res) {
                     tanggal_lahir: req.body.tanggal_lahir,
                     email: req.body.email,
                     password: thePassword,
-                    jenis_kelamin: req.body.jenis_kelamin,
-                    tempat_lahir: req.body.tempat_lahir,
+                    jenis_kelamin:
+                        req.body.jenis_kelamin || editedUser.jenis_kelamin,
+                    tempat_lahir:
+                        req.body.tempat_lahir || editedUser.tempat_lahir,
                     tiket_user: editedUser.tiket_user,
                     tempat_tes: editedUser.tempat_tes,
                     jadwal_tes: editedUser.jadwal_tes,
