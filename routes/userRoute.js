@@ -11,4 +11,5 @@ router.put("/edit-user", jwtauth, userController.editUser);
 router.post("/count-user-by-jadwal", userController.numberOfUserByJadwal);
 router.post("/atur-jadwal", jwtauth, userController.aturJadwal);
 router.post("/set-hasil-tes", userController.setHasilTes);
+router.post("/password-compare", jwtauth, userController.passwordCompare);
 module.exports = router;

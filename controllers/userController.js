@@ -10,6 +10,7 @@ const {
 } = require("../validators/userValidator");
 const { find } = require("../models/user");
 const Joi = require("joi");
+const user = require("../models/user");
 async function registerUser(req, res) {
     const { value, error } = userValidator(req.body);
     if (error)
@@ -55,7 +56,32 @@ async function registerUser(req, res) {
         });
     }
 }
-
+async function passwordCompare(req, res) {
+    const user = await User.findById(req.user._id);
+    try {
+        const passwordCheck = await bcrypt.compare(
+            req.body.password,
+            user.password
+        );
+        if (!passwordCheck)
+            return res.status(400).json({
+                status: "FAILED",
+                message: "wrong password",
+                data: { passwordCheck },
+            });
+        res.json({
+            status: "SUCCESS",
+            message: "password right",
+            data: { passwordCheck },
+        });
+    } catch (err) {
+        res.json({
+            status: "FAILED",
+            message: "can't compare password",
+            data: { ...err },
+        });
+    }
+}
 async function findOneUser(req, res) {
     try {
         const oneUser = await User.findById(
@@ -289,4 +315,5 @@ module.exports = {
     numberOfUserByJadwal,
     aturJadwal,
     setHasilTes,
+    passwordCompare,
 };
