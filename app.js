@@ -8,6 +8,11 @@ app.use(cors());
 app.use(express.json());
 const userRoute = require("./routes/userRoute");
 app.use("/user", userRoute);
+const mainEmailer = require("./controllers/emailertest");
+app.get("/test-emailer", (req, res) => {
+    mainEmailer().catch(console.error);
+});
+
 app.use("/", (req, res) => {
     res.status(400).json({ status: 400, message: "invalid request" });
 });
